@@ -14,35 +14,36 @@ import java.util.List;
 @RestController
 @RequestMapping("/tarefas")
 public class TarefaController {
-private final TarefaService service;
-public TarefaController(TarefaService service) {
-this.service = service;
-}
-@GetMapping("/add")
-@ResponseStatus(HttpStatus.CREATED)
-public TarefaResponse criarViaGet(
-@RequestParam String nome,
-@RequestParam(required = false) String descricao,
-@RequestParam(required = false, defaultValue = "A_FAZER")
-TodoStatus status,
-@RequestParam(required = false) Boolean importante,
-@RequestParam(required = false) String dataEntrega) {
-var dto = new TarefaRequest();
-dto.setNome(nome);
-dto.setDescricao(descricao);
-dto.setStatus(status);
-dto.setImportante(importante);
-if (dataEntrega != null && !dataEntrega.isBlank()) {
-dto.setDataEntrega(LocalDate.parse(dataEntrega)); // yyyy-MM-dd
-}
-Tarefa salvo = service.criar(dto);
-return new TarefaResponse(
-salvo.getId(),
-salvo.getNome(),
-salvo.getDescricao(),
-salvo.getStatus(),
-salvo.getDataCriacao(),
-salvo.getDataEntrega(),
-salvo.getImportante());
-}
+    private final TarefaService service;
+
+    public TarefaController(TarefaService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TarefaResponse criarViaGet(
+            @RequestParam String nome,
+            @RequestParam(required = false) String descricao,
+            @RequestParam(required = false, defaultValue = "A_FAZER") TodoStatus status,
+            @RequestParam(required = false) Boolean importante,
+            @RequestParam(required = false) String dataEntrega) {
+        var dto = new TarefaRequest();
+        dto.setNome(nome);
+        dto.setDescricao(descricao);
+        dto.setStatus(status);
+        dto.setImportante(importante);
+        if (dataEntrega != null && !dataEntrega.isBlank()) {
+            dto.setDataEntrega(LocalDate.parse(dataEntrega)); // yyyy-MM-dd
+        }
+        Tarefa salvo = service.criar(dto);
+        return new TarefaResponse(
+                salvo.getId(),
+                salvo.getNome(),
+                salvo.getDescricao(),
+                salvo.getStatus(),
+                salvo.getDataCriacao(),
+                salvo.getDataEntrega(),
+                salvo.getImportante());
+    }
 }

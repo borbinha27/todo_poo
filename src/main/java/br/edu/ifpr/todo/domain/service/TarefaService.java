@@ -18,25 +18,25 @@ public class TarefaService {
         this.repo = repo;
     }
 
-public List<Tarefa> listar(String q, TodoStatus status, Boolean
-importante, LocalDate ate) {
-// Filtro simples combinando alguns critérios básicos
-if (q != null && !q.isBlank()) {
-return repo.findByNomeContainingIgnoreCase(q);
-}
-if (status != null && Boolean.TRUE.equals(importante)) {
-return repo.findByStatusAndImportanteTrue(status);
-}
-if (status != null) {return repo.findByStatus(status);
-}
-if (Boolean.TRUE.equals(importante)) {
-return repo.findByImportanteTrue();
-}
-if (ate != null) {
-return repo.findByDataEntregaBefore(ate.plusDays(1)); 
-}
-return repo.findAll();
-}
+    public List<Tarefa> listar(String q, TodoStatus status, Boolean importante, LocalDate ate) {
+        // Filtro simples combinando alguns critérios básicos
+        if (q != null && !q.isBlank()) {
+            return repo.findByNomeContainingIgnoreCase(q);
+        }
+        if (status != null && Boolean.TRUE.equals(importante)) {
+            return repo.findByStatusAndImportanteTrue(status);
+        }
+        if (status != null) {
+            return repo.findByStatus(status);
+        }
+        if (Boolean.TRUE.equals(importante)) {
+            return repo.findByImportanteTrue();
+        }
+        if (ate != null) {
+            return repo.findByDataEntregaBefore(ate.plusDays(1));
+        }
+        return repo.findAll();
+    }
 
     public Tarefa buscarPorId(Long id) {
         return repo.findById(id)
