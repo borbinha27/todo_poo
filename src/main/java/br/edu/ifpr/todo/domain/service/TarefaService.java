@@ -52,6 +52,7 @@ public class TarefaService {
         t.setStatus(dto.getStatus() != null ? dto.getStatus() : TodoStatus.A_FAZER);
         t.setDataEntrega(dto.getDataEntrega());
         t.setImportante(dto.getImportante() != null ? dto.getImportante() : false);
+        t.setDataCriacao(LocalDate.now()); // Define data de criação automaticamente
         return repo.save(t);
     }
 
@@ -65,6 +66,34 @@ public class TarefaService {
         t.setDataEntrega(dto.getDataEntrega());
         if (dto.getImportante() != null)
             t.setImportante(dto.getImportante());
+        return repo.save(t);
+    }
+
+    /**
+     * Método para atualização parcial (PATCH)
+     * Só atualiza campos que não são nulos no DTO
+     */
+    @Transactional
+    public Tarefa atualizarParcial(Long id, TarefaRequest dto) {
+        Tarefa t = buscarPorId(id);
+        
+        // Só atualiza se o campo não for nulo
+        if (dto.getNome() != null && !dto.getNome().trim().isEmpty()) {
+            t.setNome(dto.getNome());
+        }
+        if (dto.getDescricao() != null) {
+            t.setDescricao(dto.getDescricao());
+        }
+        if (dto.getStatus() != null) {
+            t.setStatus(dto.getStatus());
+        }
+        if (dto.getDataEntrega() != null) {
+            t.setDataEntrega(dto.getDataEntrega());
+        }
+        if (dto.getImportante() != null) {
+            t.setImportante(dto.getImportante());
+        }
+        
         return repo.save(t);
     }
 
