@@ -113,25 +113,4 @@ public class TarefaController {
             tarefa.getImportante()
         );
     }
-
-    // Mantendo o endpoint GET para compatibilidade (se necessário)
-    @GetMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public TarefaResponse criarViaGet(
-            @RequestParam String nome,
-            @RequestParam(required = false) String descricao,
-            @RequestParam(required = false, defaultValue = "A_FAZER") TodoStatus status,
-            @RequestParam(required = false) Boolean importante,
-            @RequestParam(required = false) String dataEntrega) {
-        var dto = new TarefaRequest();
-        dto.setNome(nome);
-        dto.setDescricao(descricao);
-        dto.setStatus(status);
-        dto.setImportante(importante);
-        if (dataEntrega != null && !dataEntrega.isBlank()) {
-            dto.setDataEntrega(LocalDate.parse(dataEntrega)); // yyyy-MM-dd
-        }
-        Tarefa salvo = service.criar(dto);
-        return toResponse(salvo);
-    }
 }
